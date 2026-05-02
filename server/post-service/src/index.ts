@@ -9,27 +9,35 @@ const typeDefs = gql`
       url: "https://specs.apollo.dev/federation/v2.0"
       import: ["@key", "@shareable"]
     )
+  
+  type Post {
+    id: ID!
+    title: String!
+    description: String!
+    authorId: ID!
+    # author: User!
+  }
 
   type Query {
-    me: User
+    Posts: [Post]
   }
 
   type User @key(fields: "id") {
     id: ID!
-    username: String
   }
 `;
 
 const resolvers = {
   Query: {
-    me() {
-      return { id: '1', username: '@ava' };
+    Posts : () => {
+      return [{ id: '1', title: '@ava', description: "fdskfj hgfjlshd", authorId: "2"  }];
     },
   },
-  User: {
-    __resolveReference(user, { fetchUserById }) {
-      return fetchUserById(user.id);
-    },
+
+  Post: {
+    author: (ref) => {
+      return  ref.authorId
+    }
   },
 };
 
