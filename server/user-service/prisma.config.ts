@@ -8,6 +8,6 @@ export default defineConfig({
   },
   engine: "classic",
   datasource: {
-    url: process.env("DATABASE_URL_USER_SERVICE"),
+    url: process.env.DATABASE_URL_USER_SERVICE,
   },
 });
