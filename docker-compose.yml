@@ -1,4 +1,4 @@
-version: '3.9'
+# version: '3.9'
 
 services:
   client:
@@ -32,7 +32,7 @@ services:
   user-service:
     build: ./server/user-service
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4002"]
+      test: ["CMD", "curl", "-f", "-X", "POST", "http://localhost:4002/graphql", "-H", "Content-Type: application/json", "-d", "{\"query\":\"{__typename}\"}"]
       interval: 5s
       timeout: 2s
       retries: 5
@@ -53,7 +53,7 @@ services:
   post-service:
     build: ./server/post-service
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4001"]
+      test: ["CMD", "curl", "-f", "-X", "POST", "http://localhost:4001/graphql", "-H", "Content-Type: application/json", "-d", "{\"query\":\"{__typename}\"}"]
       interval: 5s
       timeout: 2s
       retries: 5

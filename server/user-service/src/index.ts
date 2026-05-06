@@ -2,6 +2,7 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import {gql} from 'graphql-tag';
 import { buildSubgraphSchema } from '@apollo/subgraph';
+import prisma from './prisma/prisma.ts';
 
 const typeDefs = gql`
   extend schema
@@ -24,15 +25,19 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    Users : () =>  {
-      return [{ id: '1', name: '@ava', email: "ava@gmail.com" }];
+    Users : async () =>  {
+      const users = prisma.user.findMany({})
+      return users;
     },
   },
 
   User: {
-    __resolveReference : (ref) =>  {
+    __resolveReference : async (ref) =>  {
       console.log('3 resolve reference executed!!!'); 
-      return { id: '1', name: '@ava', email: "ava@gmail.com" };
+      const user = await prisma.user.findUnique({
+        where: {id: ref.id}
+      })
+      return user;
     },
   },
 };
