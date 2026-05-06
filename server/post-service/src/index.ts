@@ -15,7 +15,7 @@ const typeDefs = gql`
     title: String!
     description: String!
     authorId: ID!
-    # author: User!
+    author: User!
   }
 
   type Query {
@@ -30,13 +30,17 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     Posts : () => {
+      console.log('1 posts resolver executed!!!'); 
       return [{ id: '1', title: '@ava', description: "fdskfj hgfjlshd", authorId: "2"  }];
     },
   },
 
   Post: {
     author: (ref) => {
-      return  ref.authorId
+      console.log(ref);
+      
+      console.log('2 author post executed!!!'); 
+      return { __typename: "User", id: ref.authorId}
     }
   },
 };

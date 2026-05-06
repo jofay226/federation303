@@ -2,6 +2,7 @@ FROM node:20-alpine
 
 WORKDIR  /post-service
 
+RUN apk add --no-cache curl
 
 COPY package*.json . 
 

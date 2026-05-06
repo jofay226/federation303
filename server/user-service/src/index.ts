@@ -31,6 +31,7 @@ const resolvers = {
 
   User: {
     __resolveReference : (ref) =>  {
+      console.log('3 resolve reference executed!!!'); 
       return { id: '1', name: '@ava', email: "ava@gmail.com" };
     },
   },
